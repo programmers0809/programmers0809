@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Card Management</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .btn-delete {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="row" id="cardContainer">
+    <!-- Existing cards will be here -->
+    <div class="col-md-4 mb-3">
+      <div class="card" style="width: 18rem; position: relative;">
+        <button class="btn btn-danger btn-delete" onclick="deleteCard(this)">Delete</button>
+        <img src="./man.jpg" class="card-img-top" alt="Profile image" id="profile-img">
+        <div class="card-body">
+          <h5 class="card-title" id="card-title">Personal Information</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="age">Age: <strong>15</strong></li>
+            <li class="list-group-item" id="family-name">Family Name: <strong>Abdullayev</strong></li>
+            <li class="list-group-item" id="number">Number: <strong>+998940431557</strong></li>
+            <li class="list-group-item" id="name">Name: <strong>Feruz</strong></li>
+          </ul>
+          <a href="#" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#updateModal">Edit Information</a>
+          <a href="./info.html" class="btn btn-secondary mt-3">Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button to trigger new card form -->
+  <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addCardModal">Add New Card</button>
+</div>
+
+<!-- Modal for updating information -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Update Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="updateForm">
+          <div class="mb-3">
+            <label for="nameInput" class="form-label">Name</label>
+            <input type="text" class="form-control" id="nameInput" placeholder="Enter name">
+          </div>
+          <div class="mb-3">
+            <label for="ageInput" class="form-label">Age</label>
+            <input type="number" class="form-control" id="ageInput" placeholder="Enter age">
+          </div>
+          <div class="mb-3">
+            <label for="familyNameInput" class="form-label">Family Name</label>
+            <input type="text" class="form-control" id="familyNameInput" placeholder="Enter family name">
+          </div>
+          <div class="mb-3">
+            <label for="numberInput" class="form-label">Number</label>
+            <input type="text" class="form-control" id="numberInput" placeholder="Enter number">
+          </div>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for adding new card -->
+<div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCardModalLabel">Add New Card</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addCardForm">
+          <div class="mb-3">
+            <label for="newNameInput" class="form-label">Name</label>
+            <input type="text" class="form-control" id="newNameInput" placeholder="Enter name">
+          </div>
+          <div class="mb-3">
+            <label for="newAgeInput" class="form-label">Age</label>
+            <input type="number" class="form-control" id="newAgeInput" placeholder="Enter age">
+          </div>
+          <div class="mb-3">
+            <label for="newFamilyNameInput" class="form-label">Family Name</label>
+            <input type="text" class="form-control" id="newFamilyNameInput" placeholder="Enter family name">
+          </div>
+          <div class="mb-3">
+            <label for="newNumberInput" class="form-label">Number</label>
+            <input type="text" class="form-control" id="newNumberInput" placeholder="Enter number">
+          </div>
+          <div class="mb-3">
+            <label for="newImageInput" class="form-label">Image</label>
+            <input type="file" class="form-control" id="newImageInput" accept="image/*">
+          </div>
+          <button type="submit" class="btn btn-primary">Add Card</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Update card information
+  document.getElementById('updateForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Get new values from the form
+    const name = document.getElementById('nameInput').value;
+    const age = document.getElementById('ageInput').value;
+    const familyName = document.getElementById('familyNameInput').value;
+    const number = document.getElementById('numberInput').value;
+
+    // Update card information
+    document.getElementById('name').innerHTML = `Name: <strong>${name}</strong>`;
+    document.getElementById('age').innerHTML = `Age: <strong>${age}</strong>`;
+    document.getElementById('family-name').innerHTML = `Family Name: <strong>${familyName}</strong>`;
+    document.getElementById('number').innerHTML = `Number: <strong>${number}</strong>`;
+
+    // Close the modal
+    const updateModal = bootstrap.Modal.getInstance(document.getElementById('updateModal'));
+    updateModal.hide();
+  });
+
+  // Add new card
+  document.getElementById('addCardForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Get new values from the form
+    const name = document.getElementById('newNameInput').value;
+    const age = document.getElementById('newAgeInput').value;
+    const familyName = document.getElementById('newFamilyNameInput').value;
+    const number = document.getElementById('newNumberInput').value;
+    const imageInput = document.getElementById('newImageInput');
+    const imageFile = imageInput.files[0];
+    
+    // Create an image URL
+    let imageUrl = '';
+    if (imageFile) {
+      imageUrl = URL.createObjectURL(imageFile);
+    } else {
+      imageUrl = 'https://via.placeholder.com/150'; // Default image if no file is selected
+    }
+
+    // Create new card HTML
+    const newCardHtml = `
+      <div class="col-md-4 mb-3">
+        <div class="card" style="width: 18rem; position: relative;">
+          <button class="btn btn-danger btn-delete" onclick="deleteCard(this)">Delete</button>
+          <img src="${imageUrl}" class="card-img-top" alt="Profile image">
+          <div class="card-body">
+            <h5 class="card-title">${name}</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Age: <strong>${age}</strong></li>
+              <li class="list-group-item">Family Name: <strong>${familyName}</strong></li>
+              <li class="list-group-item">Number: <strong>${number}</strong></li>
+            </ul>
+            <a href="info.html" class="btn btn-primary mt-3">Action</a>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Insert new card into the container
+    document.getElementById('cardContainer').insertAdjacentHTML('beforeend', newCardHtml);
+
+    // Close the modal
+    const addCardModal = bootstrap.Modal.getInstance(document.getElementById('addCardModal'));
+    addCardModal.hide();
+  });
+
+  // Function to delete a card
+  function deleteCard(button) {
+    const card = button.closest('.col-md-4');
+    card.remove();
+  }
+</script>
+</body>
+</html>
